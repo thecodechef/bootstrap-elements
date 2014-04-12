@@ -1,0 +1,64 @@
+<polymer-element name="bs-import" noscript lightdom>
+	<template>
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+		<!--script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script-->"
+	</template>
+</polymer-element>
+<polymer-element name="bs-container">
+	<template>
+		<div class="container">
+			<content></content>
+		</div>
+	</template>
+	<script type="text/javascript">
+		Polymer('bs-container', {
+			applyAuthorStyles: true
+		});
+	</script>
+</polymer-element>
+<polymer-element name="bs-row">
+	<template>
+		<div class="row">
+			<content></content>
+		</div>
+	</template>
+	<script type="text/javascript">
+		Polymer('bs-row', {
+			applyAuthorStyles: true
+		});
+	</script>
+</polymer-element>
+<polymer-element name="bs-block" attributes="xs sm md lg">
+	<template>
+		<content></content>
+	</template>
+	<script type="text/javascript">
+		var COLUMNS = ["xs", "sm", "md", "lg"]
+		Polymer('bs-block', {
+			applyAuthorStyles: true
+			
+			ready: function() {
+				this.cell = this.shadowRoot.children[0];
+				this.writeBootstrapColumns();
+			},
+			attributeChangedCallback: function (name) {
+				this.writeBootstrapColumn(name);
+			},
+			writeBootstrapColumns: function() {
+				COLUMNS.forEach(function(name) {
+					this.writeBootstrapColumn(name);
+				}.bind(this));
+			},
+			writeBoostrapColumn: function(column) {
+				var classes = [].slice.apply(this.cell.classlist);
+				var match = new RegExp("^col-" + column + "-[0-9]+$");
+				classes.forEach(function(className) {
+					if (className.match(match)) {
+						this.cell.classlist.remove(className);
+					}
+				}
+			}
+		});
+	</script>
+</polymer-element>
